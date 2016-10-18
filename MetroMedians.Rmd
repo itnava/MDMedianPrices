@@ -12,7 +12,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ##Data Source: Zillow Median Metro Data
 Publicly available data
+
 Lists median price for houses sold in each month
+
 Seven metro areas from Maryland
 
 
