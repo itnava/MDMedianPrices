@@ -21,7 +21,7 @@ Seven metro areas from Maryland
 TimeFrame:  1996/04 - 2016/04
 -----
 ```{r getData, echo = FALSE, message = F, warning=F}
-
+setwd("~/Coursera/DevelopingDataProducts/week3")
 library(reshape2)
 library(ggplot2)
 library(plotly)
