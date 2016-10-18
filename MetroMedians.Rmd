@@ -1,0 +1,47 @@
+---
+title: "Price Trends in Maryland Metro Areas"
+author: "Itnava"
+date: "October 17, 2016"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+##Data Source: Zillow Median Metro Data
+Publicly available data
+
+Lists median price for houses sold in each month
+
+Seven metro areas from Maryland
+
+
+TimeFrame:  1996/04 - 2016/04
+-----
+```{r getData, echo = FALSE, message = F, warning=F}
+setwd("~/Coursera/DevelopingDataProducts/week3")
+library(reshape2)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+df <- read.csv("Metro_MedianValuePerSqft_AllHomes.csv")
+MDhousing <-df[grep("MD",df$RegionName),]
+columns <- colnames(MDhousing)
+columns[4:248] <- substring(colnames(df[grep("X", colnames(df))]),2)
+cols = c(4:248)
+MDhousing[,cols] = lapply(MDhousing[,cols], function(x) as.numeric(as.character(x)))
+MDhousingtranspose <- t(MDhousing)
+housing <- data.frame(columns[4:248],MDhousingtranspose[4:248, ])
+colnames(housing) <- c("Date", "Baltimore", "Salisbury", "Hagerstown", "California-Lexington Park", "Cumberland", "Easton", "Cambridge")
+housing.m <- melt(housing[1:245,1:8], "Date")
+colnames(housing.m) <- c("Date", "Town", "Price")
+housing.m$Price <- as.numeric(as.character(housing.m$Price))
+
+m <- list(l = 50, r = 50, b = 100, t = 100, pad = 4)
+p <- plot_ly(housing.m, x = housing.m$Date, y = housing.m$Price, type= "scatter", mode = "markers", color = housing.m$Town) %>%
+  layout(autosize = F, width = 900, height = 450, margin = m)
+p
+```
+
